@@ -1,0 +1,155 @@
+/* style.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url(assests/us.jpg); /* Keep your background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #444; /* Slightly softer dark gray */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container for login and form */
+.login-container,
+.grievance-form-container,
+#grievanceHistoryContainer {
+    background-color: rgba(255, 255, 255, 0.9); /* Light white with slight transparency */
+    padding: 30px;
+    border-radius: 15px; /* Soft rounded corners */
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.08); /* Even softer shadow */
+    width: 90%;
+    max-width: 500px; /* Adjust as needed */
+    margin: 20px; /* Add some margin around the container */
+}
+
+#grievanceHistoryContainer {
+    max-width: 700px;
+}
+
+h2, h3 {
+    color: #E91E63; /* Soft pink for headings */
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #666; /* Softer label text */
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 10px; /* More rounded inputs */
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #444;
+    background-color: #f9f9f9; /* Very light gray background for inputs */
+    transition: border-color 0.3s ease; /* Smooth transition for focus */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #E91E63; /* Soft pink highlight on focus */
+    box-shadow: 0 0 5px rgba(233, 30, 99, 0.3); /* Subtle focus shadow */
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button {
+    background-color: #E91E63; /* Soft pink for the primary button */
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px; /* Rounded buttons */
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.08); /* Even softer button shadow */
+}
+
+button:hover {
+    background-color: #D81B60; /* Slightly darker pink on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific to grievance history */
+#grievanceHistory h3 {
+    color: #E91E63;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.grievance-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.grievance-item:last-child {
+    border-bottom: none;
+}
+
+.grievance-date {
+    font-size: 0.9em;
+    color: #777;
+    width: 150px;
+    flex-shrink: 0;
+}
+
+.grievance-summary {
+    flex-grow: 1;
+}
+
+.grievance-mood-emoji {
+    font-size: 1.5em;
+    width: 30px;
+    text-align: center;
+}
+
+.back-button {
+    background-color: #673AB7; /* Keeping a contrasting soft purple for the back button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.back-button:hover {
+    background-color: #512DA8;
+    transform: translateY(-2px);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* You can add more specific styles for the mood/severity elements if needed */

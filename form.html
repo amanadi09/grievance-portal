@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Grievance</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ... (previous styles remain the same) ... */
+        #easterEggMessage {
+            background-color: #ffe0b2; /* Light orange background for the message */
+            color: #d84315; /* Darker orange text */
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            display: none; /* Initially hidden */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="grievance-form-container">
+        <h2>Submit a Grievance</h2>
+        <form id="grievanceForm">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" placeholder="Enter a brief title" required>
+            </div>
+            <div class="form-group">
+                <label for="description">What's bothering you?</label>
+                <textarea id="description" name="description" placeholder="Please describe your grievance in detail" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="mood">Mood:</label>
+                <select id="mood" name="mood">
+                    <option value="">Select your mood</option>
+                    <option value="angry">Angry</option>
+                    <option value="sad">Sad</option>
+                    <option value="happy">Happy</option>
+                    <option value="frustrated">Frustrated</option>
+                    <option value="neutral">Neutral</option>
+                </select>
+            </div>
+            <div class="form-group mood-severity-container">
+                <div class="emoji-placeholder" id="emojiDisplay"></div>
+                <div id="severity-container" style="display: none;">
+                    <label for="severity">Severity:</label>
+                    <select id="severity" name="severity">
+                        <option value="">Select Severity</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+            </div>
+            <div id="easterEggMessage">Yikes! I'm on my way with chocolate. 🍫💖</div>
+            <button type="submit">Submit ❤️</button>
+        </form>
+    </div>
+
+    <script>
+        const moodSelect = document.getElementById('mood');
+        const emojiDisplay = document.getElementById('emojiDisplay');
+        const severityContainer = document.getElementById('severity-container');
+        const severitySelect = document.getElementById('severity');
+        const grievanceForm = document.getElementById('grievanceForm');
+        const easterEggMessage = document.getElementById('easterEggMessage');
+
+        const moodEmojis = {
+            angry: '😠',
+            sad: '😢',
+            happy: '😊',
+            frustrated: '😤',
+            neutral: '😐'
+        };
+
+        const moodSeverities = {
+            angry: ['Mildly Annoyed', 'Upset', 'Furious'],
+            sad: ['A Little Down', 'Quite Sad', 'Devastated'],
+            happy: ['Slightly Pleased', 'Happy', 'Joyful'],
+            frustrated: ['Irritated', 'Frustrated', 'Enraged'],
+            neutral: ['Not Concerned', 'Slightly Affected', 'Significantly Affected']
+        };
+
+        moodSelect.addEventListener('change', function() {
+            const selectedMood = this.value;
+            emojiDisplay.textContent = moodEmojis[selectedMood] || '';
+            severityContainer.style.display = selectedMood ? 'block' : 'none';
+
+            severitySelect.innerHTML = '<option value="">Select Severity</option>';
+            if (moodSeverities[selectedMood]) {
+                moodSeverities[selectedMood].forEach((level, index) => {
+                    const value = level.toLowerCase().replace(/ /g, '');
+                    const option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = level;
+                    severitySelect.appendChild(option);
+                });
+            }
+        });
+
+        grievanceForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const mood = moodSelect.value;
+            const severity = severitySelect.value;
+
+            // Check for the easter egg trigger word (case-insensitive)
+            if (description.toLowerCase().includes('chocolate')) {
+                easterEggMessage.style.display = 'block'; // Show the message
+                // Optionally, you could delay the redirection to thank you page slightly
+                setTimeout(() => {
+                    redirectToThankYou(title, description, mood, severity);
+                }, 2000); // Show for 2 seconds
+            } else {
+                redirectToThankYou(title, description, mood, severity);
+            }
+        });
+
+        function redirectToThankYou(title, description, mood, severity) {
+            const grievance = {
+                title: title,
+                description: description,
+                mood: mood,
+                severity: severity,
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem('lastGrievance', JSON.stringify(grievance));
+
+            let allGrievances = JSON.parse(localStorage.getItem('allGrievances')) || [];
+            allGrievances.push(grievance);
+            localStorage.setItem('allGrievances', JSON.stringify(allGrievances));
+
+            window.location.href = 'thankyou.html';
+        }
+    </script>
+</body>
+</html>

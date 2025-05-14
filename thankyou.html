@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-image: url(assests/us.jpg); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif; /* Consistent font */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center; /* Center text on the page */
+        }
+        .thankyou-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 600px;
+            animation: fadeIn 1s ease-out; /* Simple fade-in animation */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #673AB7; /* A nice purple for heading */
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        strong {
+            color: #E91E63; /* A lovely pink for emphasis */
+        }
+        .home-button {
+            background-color: #FFC107; /* Playful yellow button */
+            color: #333;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px; /* Pill-shaped button */
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none; /* Remove underline from link */
+            display: inline-block; /* Allow padding and sizing */
+        }
+        .home-button:hover {
+            background-color: #FFD54F;
+            transform: translateY(-3px); /* Subtle lift effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="thankyou-container">
+        <h1 id="thankYouMessage">Thank You!</h1>
+        <p id="grievanceSummary">Your grievance has been noted. We appreciate you sharing your feelings.</p>
+        <a href="form.html" class="home-button">Submit Another Grievance</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = localStorage.getItem('username');
+            const lastGrievance = JSON.parse(localStorage.getItem('lastGrievance'));
+
+            const thankYouMessageElement = document.getElementById('thankYouMessage');
+            const grievanceSummaryElement = document.getElementById('grievanceSummary');
+
+            if (username) {
+                thankYouMessageElement.innerHTML = `Thank you, ${username}!`;
+            } else {
+                thankYouMessageElement.innerHTML = `Thank you!`;
+            }
+
+            if (lastGrievance) {
+                let summaryText = `You shared about: <strong>"${lastGrievance.title}"</strong>.`;
+                if (lastGrievance.description) {
+                    // Truncate long descriptions for summary
+                    const descriptionPreview = lastGrievance.description.length > 100
+                        ? lastGrievance.description.substring(0, 100) + '...'
+                        : lastGrievance.description;
+                    summaryText += `<br>Description: <em>"${descriptionPreview}"</em>.`;
+                }
+                if (lastGrievance.mood) {
+                    summaryText += `<br>You were feeling: <strong>${lastGrievance.mood}</strong>.`;
+                }
+                if (lastGrievance.severity) {
+                    summaryText += `<br>Severity: <strong>${lastGrievance.severity}</strong>.`;
+                }
+                grievanceSummaryElement.innerHTML = summaryText;
+            } else {
+                grievanceSummaryElement.innerHTML = "Something went wrong, and we couldn't retrieve your last grievance details. But rest assured, your feelings matter!";
+            }
+        });
+    </script>
+</body>
+</html>

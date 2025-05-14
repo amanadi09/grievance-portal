@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievance History</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-image: url(assests/us.jpg); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            flex-direction: column; /* Align items vertically */
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 20px; /* Add some top padding for spacing */
+        }
+        #grievanceHistoryContainer {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 700px;
+            margin-bottom: 20px; /* Space from the back button */
+        }
+        h2 {
+            color: #673AB7;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .grievance-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .grievance-item:last-child {
+            border-bottom: none;
+        }
+        .grievance-date {
+            font-size: 0.9em;
+            color: #777;
+            width: 150px;
+            flex-shrink: 0;
+        }
+        .grievance-summary {
+            flex-grow: 1;
+        }
+        .grievance-mood-emoji {
+            font-size: 1.5em;
+            width: 30px; /* Adjust for alignment */
+            text-align: center;
+        }
+        .back-button {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div id="grievanceHistoryContainer">
+        <h2>Grievance History</h2>
+        <div id="historyList">
+            </div>
+    </div>
+    <a href="form.html" class="back-button">Back to Form</a>
+
+    <script>
+        const historyList = document.getElementById('historyList');
+
+        const moodEmojis = {
+            angry: '😠',
+            sad: '😢',
+            happy: '😊',
+            frustrated: '😤',
+            neutral: '😐'
+        };
+
+        function displayGrievanceHistory() {
+            historyList.innerHTML = ''; // Clear previous history
+
+            const allGrievances = JSON.parse(localStorage.getItem('allGrievances')) || [];
+
+            if (allGrievances.length === 0) {
+                historyList.innerHTML = '<p>No grievances submitted yet.</p>';
+                return;
+            }
+
+            allGrievances.forEach(grievance => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('grievance-item');
+
+                const date = new Date(grievance.timestamp);
+                const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const dateSpan = document.createElement('span');
+                dateSpan.classList.add('grievance-date');
+                dateSpan.textContent = formattedDate;
+
+                const moodEmojiSpan = document.createElement('span');
+                moodEmojiSpan.classList.add('grievance-mood-emoji');
+                moodEmojiSpan.textContent = moodEmojis[grievance.mood] || '';
+
+                const summarySpan = document.createElement('span');
+                summarySpan.classList.add('grievance-summary');
+                summarySpan.textContent = grievance.title;
+
+                itemDiv.appendChild(dateSpan);
+                itemDiv.appendChild(moodEmojiSpan);
+                itemDiv.appendChild(summarySpan);
+
+                historyList.appendChild(itemDiv);
+            });
+        }
+
+        // Display history when the page loads
+        document.addEventListener('DOMContentLoaded', displayGrievanceHistory);
+    </script>
+</body>
+</html>
